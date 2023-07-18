@@ -9,7 +9,7 @@ import com.zesty.ecom.Mapper.ProductMapper;
 import com.zesty.ecom.Mapper.UserMapper;
 
 @Configuration
-public class MapperConfiguration {
+public class MapperConfig {
 	
 	@Bean
 	public ModelMapper modelMapper() {

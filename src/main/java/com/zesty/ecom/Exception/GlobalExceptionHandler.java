@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -46,6 +47,14 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<>(multipleApiResponses, HttpStatus.BAD_REQUEST);
 	}
+	
+	//Handling Bad Credentials Exception
+	@ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse> exceptionHandler(BadCredentialsException ex) {
+		String message = ex.getMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
+    }
 
 	// handling excepiton when n number of product does not match
 	// handling resource not found exception
