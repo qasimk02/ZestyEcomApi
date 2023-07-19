@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto getCategoryById(int id) {
 		Category category = this.categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
 		return categoryMapper.mapToDto(category);
 	}
 
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new DuplicateFieldExcepiton("Category", "Title", title);
 		}
 		Category oldCategory = this.categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
 		oldCategory.setTitle(newCategory.getTitle());
 		Category updatedCategory = this.categoryRepository.save(oldCategory);
 		return categoryMapper.mapToDto(updatedCategory);
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategoryById(int id) {
 		Category category = this.categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", id));
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
 		this.categoryRepository.delete(category);
 	}
 

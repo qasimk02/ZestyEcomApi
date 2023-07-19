@@ -1,4 +1,4 @@
-package com.zesty.ecom.util;
+package com.zesty.ecom.Util;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

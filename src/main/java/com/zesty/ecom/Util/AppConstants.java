@@ -1,4 +1,4 @@
-package com.zesty.ecom.util;
+package com.zesty.ecom.Util;
 
 public class AppConstants {
 	public static final String PAGE_NUMBER_STRING="0";
