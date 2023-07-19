@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.zesty.ecom.util.LocalDateTimeConverter;
+import com.zesty.ecom.Util.LocalDateTimeConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

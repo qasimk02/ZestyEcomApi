@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
 
+	
+	//create user
 	@Override
 	public UserDto createUser(UserDto userDto) {
 
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService {
 		return savedUserDto;
 	}
 
+	//get all users
 	@Override
 	public List<UserDto> getAllUsers() {
 		List<User> users = userRepository.findAll();
@@ -62,6 +65,7 @@ public class UserServiceImpl implements UserService {
 		return usersDto;
 	}
 
+	//get user by id
 	@Override
 	public UserDto getUserById(Long id) {
 		User user = userRepository.findById(id)
@@ -69,6 +73,7 @@ public class UserServiceImpl implements UserService {
 		return userMapper.mapToDto(user);
 	}
 
+	//update user
 	@Override
 	public UserDto updateUser(UserDto userDto, Long id) {
 		User user = userRepository.findById(id)
@@ -94,6 +99,7 @@ public class UserServiceImpl implements UserService {
 		return userMapper.mapToDto(updatedUser);
 	}
 
+	//delete user
 	@Override
 	public void deleteUser(Long id) {
 		User user = userRepository.findById(id)
