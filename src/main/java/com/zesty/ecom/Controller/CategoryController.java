@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class CategoryController {
 
 	// create category
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto category) {
 		System.out.println(category);
 		CategoryDto savedCategory = this.categoryService.createCategory(category);
@@ -49,6 +51,7 @@ public class CategoryController {
 
 	// update category
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto category, @PathVariable("id") int id) {
 		CategoryDto updatedCtegory = this.categoryService.updateCategory(category, id);
 		return new ResponseEntity<CategoryDto>(updatedCtegory, HttpStatus.OK);
@@ -56,6 +59,7 @@ public class CategoryController {
 
 	// delete category
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("id") int id) {
 		this.categoryService.deleteCategoryById(id);
 		ApiResponse apiResponse = new ApiResponse(String.format("Category Deleted Succesfully of Id : %s", id), true);
@@ -64,6 +68,7 @@ public class CategoryController {
 	
 	//to dump multiple categories
 	@PostMapping("/dumpCategories")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<CategoryDto>> addAllCategories(@RequestBody List<CategoryDto> categories){
 		List<CategoryDto> savedCats = this.categoryService.addAllCategories(categories);
 		return new ResponseEntity<>(savedCats,HttpStatus.CREATED);

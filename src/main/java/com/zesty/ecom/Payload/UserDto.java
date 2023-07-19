@@ -2,6 +2,8 @@ package com.zesty.ecom.Payload;
 
 import java.time.LocalDateTime;
 
+import com.zesty.ecom.Model.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +14,11 @@ public class UserDto {
 
 	// can be included in future
 //	private String userName;
-	
+
 	private String email;
 
 	private String password;
-	
+
 	private String firstName;
 
 	private String lastName;
@@ -36,4 +38,6 @@ public class UserDto {
 	private LocalDateTime updated;
 
 	private boolean active;
+
+	private Role role;
 }
