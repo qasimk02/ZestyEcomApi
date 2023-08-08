@@ -13,6 +13,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.zesty.ecom.Util.JwtConstants;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
@@ -35,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		//getting the request header
-		String requestHeader = request.getHeader("Authorization");
+		String requestHeader = request.getHeader(JwtConstants.JWT_HEADER);
 		logger.info(" Header :  {}", requestHeader);
 		
 		String email = null;

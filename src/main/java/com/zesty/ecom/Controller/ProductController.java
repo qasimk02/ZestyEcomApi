@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zesty.ecom.Payload.ApiResponse;
-import com.zesty.ecom.Payload.ProductDto;
-import com.zesty.ecom.Payload.ProductResponse;
+import com.zesty.ecom.Payload.Dto.ProductDto;
+import com.zesty.ecom.Payload.Response.ApiResponse;
+import com.zesty.ecom.Payload.Response.ProductResponse;
 import com.zesty.ecom.Service.ProductService;
 import com.zesty.ecom.Util.AppConstants;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/products")
@@ -31,9 +33,9 @@ public class ProductController {
 
 	@PostMapping("")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto p) {
+	public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto p) {
 		ProductDto savedProduct = productService.createProduct(p);
-		System.out.println("Product controller : "+p.getProductDesc());
+		System.out.println("Product controller : "+p.getDescription());
 		return new ResponseEntity<ProductDto>(savedProduct, HttpStatus.CREATED);
 	}
 
@@ -49,13 +51,13 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductDto> getProductById(@PathVariable("id") int id) {
+	public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long id) {
 		ProductDto product = productService.getProductById(id);
 		return new ResponseEntity<ProductDto>(product, HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto p, @PathVariable("id") int id) {
+	public ResponseEntity<ProductDto> updateProduct(@Valid @RequestBody ProductDto p, @PathVariable("id") Long id) {
 		ProductDto updatedProduct = productService.updateProduct(id, p);
 		return new ResponseEntity<ProductDto>(updatedProduct, HttpStatus.OK);
 	}
@@ -68,7 +70,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("id") int id) {
+	public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("id") Long id) {
 		productService.deleteProduct(id);
 		ApiResponse apiResponse = new ApiResponse(String.format("Product Deleted Succesfully of Id : %s", id), true);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);

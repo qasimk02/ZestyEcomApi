@@ -2,7 +2,7 @@ package com.zesty.ecom.Service;
 
 import java.util.List;
 
-import com.zesty.ecom.Payload.UserDto;
+import com.zesty.ecom.Payload.Dto.UserDto;
 
 public interface UserService {
 	
@@ -14,6 +14,9 @@ public interface UserService {
 	
 	//get user by id
 	UserDto getUserById(Long id);
+	
+	//get user by username
+	UserDto getUserByUsername(String username);
 	
 	//update user
 	UserDto updateUser(UserDto userDto,Long id);

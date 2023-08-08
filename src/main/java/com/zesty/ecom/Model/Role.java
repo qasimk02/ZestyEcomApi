@@ -2,7 +2,7 @@ package com.zesty.ecom.Model;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,13 +26,13 @@ public class Role {
 
 	@Id
 	@Column(name = "role_id", nullable = false)
-	private int id;
+	private Integer id;
 
-	@Column(name = "role_name", nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@OneToMany(mappedBy = "role",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private Set<User> users;
 
 }

@@ -10,7 +10,7 @@ import com.zesty.ecom.Exception.DuplicateFieldExcepiton;
 import com.zesty.ecom.Exception.ResourceNotFoundException;
 import com.zesty.ecom.Mapper.CategoryMapper;
 import com.zesty.ecom.Model.Category;
-import com.zesty.ecom.Payload.CategoryDto;
+import com.zesty.ecom.Payload.Dto.CategoryDto;
 import com.zesty.ecom.Repository.CategoryRepository;
 import com.zesty.ecom.Service.CategoryService;
 

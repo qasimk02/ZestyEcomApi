@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zesty.ecom.Payload.ApiResponse;
-import com.zesty.ecom.Payload.CategoryDto;
+import com.zesty.ecom.Payload.Dto.CategoryDto;
+import com.zesty.ecom.Payload.Response.ApiResponse;
 import com.zesty.ecom.Service.CategoryService;
 
 @RestController

@@ -8,9 +8,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zesty.ecom</groupId>
-	<artifactId>ZestyEcomApi</artifactId>
+	<artifactId>zesty-ecom-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ZestyEcomApi</name>
+	<name>zesty-ecom-backend</name>
 	<description>This project consist the backend part of Ecommerce app</description>
 	<properties>
 		<java.version>17</java.version>
@@ -85,6 +85,12 @@
 			<artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
 			<version>0.11.5</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version> <!-- Use the latest version -->
 		</dependency>
 
 

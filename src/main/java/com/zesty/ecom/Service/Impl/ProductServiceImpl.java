@@ -17,8 +17,8 @@ import com.zesty.ecom.Exception.CategoriesNotFoundExcepiton;
 import com.zesty.ecom.Mapper.ProductMapper;
 import com.zesty.ecom.Model.Category;
 import com.zesty.ecom.Model.Product;
-import com.zesty.ecom.Payload.ProductDto;
-import com.zesty.ecom.Payload.ProductResponse;
+import com.zesty.ecom.Payload.Dto.ProductDto;
+import com.zesty.ecom.Payload.Response.ProductResponse;
 import com.zesty.ecom.Repository.CategoryRepository;
 import com.zesty.ecom.Repository.ProductRepository;
 import com.zesty.ecom.Service.ProductService;
@@ -37,13 +37,14 @@ public class ProductServiceImpl implements ProductService {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ProductDto createProduct(ProductDto pDto) {
 		// checking for is in stock
-		if (pDto.getProductQuantity() > 0) {
+		if (pDto.getQuantity() > 0) {
 			pDto.setInStock(true);
 		} else {
 			pDto.setInStock(false);
 		}
-		Category c = categoryRepository.findById(pDto.getCategory().getId()).orElseThrow(
-				() -> new ResourceNotFoundException("Category", "Id", Long.toString(pDto.getCategory().getId())));
+		Category c = categoryRepository.findById(pDto.getCategory().getCategoryId()).orElseThrow(
+				() -> new ResourceNotFoundException("Category", "Id", Long.toString(pDto.getCategory().getCategoryId())));
+		
 		Product p = productMapper.mapToEntity(pDto);
 		p.setCategory(c);
 		Product savedProduct = productRepository.save(p);
@@ -80,28 +81,29 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDto getProductById(int id) {
-		Product p = productRepository.findById(id)
+	public ProductDto getProductById(Long id) {
+		Product p = productRepository.findByProductId(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Product", "Id", Long.toString(id)));
 		return productMapper.mapToDto(p);
 	}
 
 	@Override
 	@PreAuthorize("hasRole('ADMIN')")
-	public ProductDto updateProduct(int id, ProductDto newP) {
-		Product oldP = productRepository.findById(id)
+	public ProductDto updateProduct(Long id, ProductDto newP) {
+		Product oldP = productRepository.findByProductId(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Product", "Id", Long.toString(id)));
 		// setting the new values
-		oldP.setProductName(newP.getProductName());
-		oldP.setProductPrize(newP.getProductPrize());
-		oldP.setInStock(newP.isInStock());
-		oldP.setProductQuantity(newP.getProductQuantity());
+		oldP.setName(newP.getName());
+		oldP.setPrice(newP.getPrice());
+		oldP.setInStock(newP.getInStock());
+		oldP.setQuantity(newP.getQuantity());
 		oldP.setLive(newP.isLive());
-		oldP.setProductImageName(newP.getProductImageName());
-		oldP.setProductDesc(newP.getProductDesc());
+		oldP.setDiscountPercent(newP.getDiscountPercent());
+		oldP.setImageName(newP.getImageName());
+		oldP.setDescription(newP.getDescription());
 		// checking if category id exist
-		Category c = this.categoryRepository.findById(newP.getCategory().getId()).orElseThrow(
-				() -> new ResourceNotFoundException("Category", "Id", Long.toString(newP.getCategory().getId())));
+		Category c = this.categoryRepository.findById(newP.getCategory().getCategoryId()).orElseThrow(
+				() -> new ResourceNotFoundException("Category", "Id", Long.toString(newP.getCategory().getCategoryId())));
 		oldP.setCategory(c);
 		Product updatedProduct = productRepository.save(oldP);
 		return productMapper.mapToDto(updatedProduct);
@@ -109,8 +111,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@PreAuthorize("hasRole('ADMIN')")
-	public void deleteProduct(int id) {
-		Product p = productRepository.findById(id)
+	public void deleteProduct(Long id) {
+		Product p = productRepository.findByProductId(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Product", "Id", Long.toString(id)));
 		productRepository.delete(p);
 	}
@@ -153,7 +155,8 @@ public class ProductServiceImpl implements ProductService {
 		// checking if all the categories present
 		List<String> notExistIds = new ArrayList<>();
 		products.forEach((p) -> {
-			int id = p.getCategory().getId();
+			int id = p.getCategory().getCategoryId();
+			System.out.println("Product"+id);
 			if (!categoryRepository.existsById(id)) {
 				notExistIds.add("Category not found with Id : " + id);
 			}
@@ -164,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
 
 		// checking for is in stock
 		for (ProductDto p : products) {
-			if (p.getProductQuantity() > 0) {
+			if (p.getQuantity() > 0) {
 				p.setInStock(true);
 			} else {
 				p.setInStock(false);

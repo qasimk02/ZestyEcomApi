@@ -1,4 +1,4 @@
-package com.zesty.ecom.Payload;
+package com.zesty.ecom.Payload.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRequest {
+public class RoleDto {
 	
-	private String email;
-	private String password;
+	private int id;
+	private String name;
 	
 }

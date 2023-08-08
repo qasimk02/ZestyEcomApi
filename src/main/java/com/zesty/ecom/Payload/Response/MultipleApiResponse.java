@@ -1,4 +1,4 @@
-package com.zesty.ecom.Payload;
+package com.zesty.ecom.Payload.Response;
 
 import java.util.List;
 

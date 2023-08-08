@@ -2,7 +2,7 @@ package com.zesty.ecom.Service;
 
 import java.util.List;
 
-import com.zesty.ecom.Payload.CategoryDto;
+import com.zesty.ecom.Payload.Dto.CategoryDto;
 
 public interface CategoryService {
 

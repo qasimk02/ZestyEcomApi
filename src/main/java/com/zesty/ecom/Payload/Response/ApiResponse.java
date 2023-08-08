@@ -1,7 +1,6 @@
-package com.zesty.ecom.Payload;
+package com.zesty.ecom.Payload.Response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class JwtResponse {
+public class ApiResponse {
 	
-	private String jwtToken;
-	private String email;
-	
+	private String message;
+	private boolean success;
+
 }

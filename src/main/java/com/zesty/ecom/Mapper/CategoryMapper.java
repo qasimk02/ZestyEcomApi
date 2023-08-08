@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zesty.ecom.Model.Category;
-import com.zesty.ecom.Payload.CategoryDto;
+import com.zesty.ecom.Payload.Dto.CategoryDto;
 
 public class CategoryMapper {
 	
