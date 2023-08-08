@@ -1,6 +1,10 @@
 package com.zesty.ecom.Payload.Dto;
 
 
+import java.util.Set;
+
+import com.zesty.ecom.Model.Sizes;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,10 +29,10 @@ public class ProductDto {
 	private String description;
 	private CategoryDto category;
 	
-//	private Set<Sizes> sizes;
-//	private String topLevelCategory;
-//	private String secondLevelCategory;
-//	private String thirdLevelCategory;
-	//private CartItem cartItem; not needed cartItem here in product
+	private Set<Sizes> sizes;
+	private String topLevelCategory;
+	private String secondLevelCategory;
+	private String thirdLevelCategory;
+//	private CartItem cartItem; not needed cartItem here in product
 
 }

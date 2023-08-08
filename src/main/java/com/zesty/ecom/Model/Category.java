@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -33,12 +35,12 @@ public class Category {
 	
 	@Column(name="title",unique=true)
 	private String title;
-//	
-//	private Integer depth;
-//	
-//	@ManyToOne
-//	@JoinColumn(name="parent_category_id")
-//    private Category parentCategory;
+
+	private Integer depth;
+	
+	@ManyToOne
+	@JoinColumn(name="parent_category_id")
+    private Category parentCategory;
 	
 	@OneToMany(mappedBy="category",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JsonIgnore

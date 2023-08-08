@@ -13,6 +13,8 @@ import com.zesty.ecom.Util.LocalDateTimeConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -90,10 +92,10 @@ public class Product {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 	
-//	@Embedded
-//	@ElementCollection
-//	@Column(name="sizes")
-//	private Set<Sizes> sizes;
+	@Embedded
+	@ElementCollection
+	@Column(name="sizes")
+	private Set<Sizes> sizes;
 	
 	//mapping
 	@ManyToOne(fetch=FetchType.EAGER)
