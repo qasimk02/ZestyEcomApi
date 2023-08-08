@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zesty.ecom.Model.User;
-import com.zesty.ecom.Payload.UserDto;
+import com.zesty.ecom.Payload.Dto.UserDto;
 
 public class UserMapper {
 	@Autowired

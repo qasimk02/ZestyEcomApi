@@ -1,7 +1,5 @@
 package com.zesty.ecom.Controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zesty.ecom.Payload.JwtRequest;
-import com.zesty.ecom.Payload.JwtResponse;
+import com.zesty.ecom.Payload.Dto.UserDto;
+import com.zesty.ecom.Payload.Request.JwtRequest;
+import com.zesty.ecom.Payload.Response.JwtResponse;
 import com.zesty.ecom.Security.JwtHelper;
+import com.zesty.ecom.Service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
@@ -31,11 +33,29 @@ public class AuthController {
 
     @Autowired
     private JwtHelper helper;
+    
+    @Autowired
+    private UserService userService;
 
-    private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-
-    @PostMapping("/login")
+    @PostMapping("/signup")
+	public ResponseEntity<JwtResponse> createUser(@Valid @RequestBody UserDto userDto){
+    	
+    	//saving the user
+		UserDto savedUser= userService.createUser(userDto);
+        
+        UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getEmail());
+        String token = this.helper.generateToken(userDetails);
+        
+        JwtResponse response = JwtResponse.builder()
+                .jwtToken(token)
+                .message("success")
+                .build();
+        
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+    
+    @PostMapping("/signin")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
     	
     	//authentication
@@ -46,7 +66,8 @@ public class AuthController {
         
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
-                .email(userDetails.getUsername()).build();
+                .message("success")
+                .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -58,8 +79,7 @@ public class AuthController {
 
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException(" Invalid Email or Password  !!");
-        }
+		}
 
-    }
+	}
 }
-

@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 import com.zesty.ecom.Exception.DuplicateFieldExcepiton;
 import com.zesty.ecom.Exception.ResourceNotFoundException;
 import com.zesty.ecom.Mapper.UserMapper;
+import com.zesty.ecom.Model.Cart;
 import com.zesty.ecom.Model.Role;
 import com.zesty.ecom.Model.User;
-import com.zesty.ecom.Payload.UserDto;
+import com.zesty.ecom.Payload.Dto.UserDto;
 import com.zesty.ecom.Repository.RoleRepository;
 import com.zesty.ecom.Repository.UserRepository;
 import com.zesty.ecom.Service.UserService;
@@ -22,18 +23,17 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserMapper userMapper;
 
-	
-	//create user
+	// create user
 	@Override
 	public UserDto createUser(UserDto userDto) {
 
@@ -42,22 +42,30 @@ public class UserServiceImpl implements UserService {
 		if (userRepository.existsByEmail(email)) {
 			throw new DuplicateFieldExcepiton("User", "Email", email);
 		}
-		System.out.println("user service " +userDto);
 		User user = userMapper.mapToEntity(userDto);
-		
-		//setting roles
-		Role role = this.roleRepository.findById(1).get();
+
+		// setting roles
+		Role role = this.roleRepository.findById(1).orElseThrow(() -> new ResourceNotFoundException("Role", "Id", "1"));
 		user.setRole(role);
-		
-		//encoding the password
+		user.setActive(true);
+
+		// encoding the password
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-		
+
+		// creating cart when user register
+		Cart cart = new Cart();
+		cart.setTotalPrice(0.0);
+		cart.setTotalDiscountedPrice(0.0);
+		cart.setUser(user);
+		user.setCart(cart);
+
 		User savedUser = userRepository.save(user);
+
 		UserDto savedUserDto = userMapper.mapToDto(savedUser);
 		return savedUserDto;
 	}
 
-	//get all users
+	// get all users
 	@Override
 	public List<UserDto> getAllUsers() {
 		List<User> users = userRepository.findAll();
@@ -65,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		return usersDto;
 	}
 
-	//get user by id
+	// get user by id
 	@Override
 	public UserDto getUserById(Long id) {
 		User user = userRepository.findById(id)
@@ -73,7 +81,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.mapToDto(user);
 	}
 
-	//update user
+	@Override
+	public UserDto getUserByUsername(String username) {
+		User user = userRepository.findByEmail(username)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", username));
+		return userMapper.mapToDto(user);
+	}
+
+	// update user
 	@Override
 	public UserDto updateUser(UserDto userDto, Long id) {
 		User user = userRepository.findById(id)
@@ -90,16 +105,14 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 		user.setFirstName(userDto.getFirstName());
 		user.setLastName(userDto.getLastName());
-		user.setAddress(userDto.getAddress());
 		user.setAbout(userDto.getAbout());
 		user.setPhone(userDto.getPhone());
-		// we're not getting time from user so will not set it
-		user.setActive(userDto.isActive());
+		user.setActive(true);
 		User updatedUser = userRepository.save(user);
 		return userMapper.mapToDto(updatedUser);
 	}
 
-	//delete user
+	// delete user
 	@Override
 	public void deleteUser(Long id) {
 		User user = userRepository.findById(id)

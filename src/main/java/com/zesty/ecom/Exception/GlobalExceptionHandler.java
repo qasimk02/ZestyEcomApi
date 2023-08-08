@@ -9,14 +9,22 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.zesty.ecom.Payload.ApiResponse;
-import com.zesty.ecom.Payload.MultipleApiResponse;
+import com.zesty.ecom.Payload.Response.ApiResponse;
+import com.zesty.ecom.Payload.Response.MultipleApiResponse;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+	
+	//handling custom message exception
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<ApiResponse> customException(CustomException ex){
+		String message = ex.getMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
+	}
 
 	// handling resource not found exception
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -26,6 +34,7 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
 	}
 
+	//handling duplicate field exception
 	@ExceptionHandler(DuplicateFieldExcepiton.class)
 	public ResponseEntity<ApiResponse> duplicateFieldExceptionHandler(DuplicateFieldExcepiton ex) {
 		String message = ex.getMessage();
@@ -56,8 +65,7 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
     }
 
-	// handling excepiton when n number of product does not match
-	// handling resource not found exception
+	// handling exception when n number of product does not match
 	@ExceptionHandler(CategoriesNotFoundExcepiton.class)
 	public ResponseEntity<MultipleApiResponse> handleCategoryNotFoundException(CategoriesNotFoundExcepiton ex) {
 		List<String> errors = ex.getErrorMessages();

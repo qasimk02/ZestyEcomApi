@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zesty.ecom.Model.Product;
-import com.zesty.ecom.Payload.ProductDto;
+import com.zesty.ecom.Payload.Dto.ProductDto;
 
 //methods are static because static method can be call with className
 public class ProductMapper {

@@ -5,21 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.zesty.ecom.Util.JwtConstants;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtHelper {
-
-	// requirement :
-		public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-
-		// public static final long JWT_TOKEN_VALIDITY = 60;
-		private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
+	
+		private SecretKey key = Keys.hmacShaKeyFor(JwtConstants.JWT_SECRET_KEY.getBytes());
 
 		// retrieve username from jwt token
 		public String getUsernameFromToken(String token) {
@@ -38,7 +38,7 @@ public class JwtHelper {
 
 		// for retrieveing any information from token we will need the secret key
 		private Claims getAllClaimsFromToken(String token) {
-			return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+			return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 		}
 
 		// check if the token has expired
@@ -61,13 +61,12 @@ public class JwtHelper {
 		// Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
 		// compaction of the JWT to a URL-safe string
 		private String doGenerateToken(Map<String, Object> claims, String subject) {
-
 			return Jwts.builder()
 	                .setClaims(claims)
 	                .setSubject(subject)
 	                .setIssuedAt(new Date(System.currentTimeMillis()))
-	                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-	                .signWith(SignatureAlgorithm.HS512, secret)
+	                .setExpiration(new Date(System.currentTimeMillis() + JwtConstants.JWT_TOKEN_VALIDITY * 1000))
+	                .signWith(key)
 	                .compact();
 		}
 

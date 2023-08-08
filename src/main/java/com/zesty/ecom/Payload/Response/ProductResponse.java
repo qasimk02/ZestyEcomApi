@@ -1,6 +1,8 @@
-package com.zesty.ecom.Payload;
+package com.zesty.ecom.Payload.Response;
 
 import java.util.List;
+
+import com.zesty.ecom.Payload.Dto.ProductDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.zesty.ecom.Payload;
+package com.zesty.ecom.Payload.Dto;
 
 import java.time.LocalDateTime;
 
@@ -6,14 +6,12 @@ import com.zesty.ecom.Model.Role;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 public class UserDto {
-	private long userId;
-
-	// can be included in future
-//	private String userName;
+	private Long userId;
 
 	private String email;
 
@@ -23,9 +21,6 @@ public class UserDto {
 
 	private String lastName;
 
-	// can be modify into another class as we need multiple address;
-	private String address;
-
 	private String about;
 
 	// have to work more and add later
@@ -33,11 +28,14 @@ public class UserDto {
 
 	private String phone;
 
-	private LocalDateTime created;
+	private LocalDateTime createdAt;
 
-	private LocalDateTime updated;
+	private LocalDateTime updatedAt;
 
 	private boolean active;
 
 	private Role role;
+	
+	//private List<Address> not needed
+	//private Cart cart; //not needed
 }

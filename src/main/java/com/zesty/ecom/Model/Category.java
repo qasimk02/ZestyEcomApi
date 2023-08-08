@@ -2,7 +2,7 @@ package com.zesty.ecom.Model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,12 +29,19 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="category_id")
-	private int id;
+	private Integer categoryId;
 	
-	@Column(name="category_title",unique=true)
+	@Column(name="title",unique=true)
 	private String title;
+//	
+//	private Integer depth;
+//	
+//	@ManyToOne
+//	@JoinColumn(name="parent_category_id")
+//    private Category parentCategory;
 	
 	@OneToMany(mappedBy="category",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private List<Product> products;
+
 }
