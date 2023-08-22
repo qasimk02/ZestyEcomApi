@@ -24,11 +24,9 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@ToString
 @Table(name="review",uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "product_id"}))//uniqueConstraint checks uniqueness of combined column for e.g (1 1) should not occur again
 public class Review {
 	

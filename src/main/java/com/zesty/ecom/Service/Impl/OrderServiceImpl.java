@@ -49,7 +49,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderDto createOrderFromCart(AddressDto shippingAddress, String username) {
 		User user = this.userRepository.findByEmail(username)
-				
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Email", username));
 		Address addressToBeSaved = this.addressMapper.mapToEntity(shippingAddress);
 		addressToBeSaved.setUser(user);
@@ -71,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
 			orderItem.setTotalDiscountedPrice(item.getTotalDiscountedPrice());
 			orderItem.setProduct(item.getProduct());
 			orderItem.setQuantity(item.getQuantity());
+			orderItem.setSize(item.getSize());
 			orderItem.setUser(user);
 			orderItems.add(orderItem);
 		}

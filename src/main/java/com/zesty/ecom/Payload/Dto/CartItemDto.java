@@ -13,8 +13,9 @@ public class CartItemDto {
 
 	private Long cartItemId;
 	private Integer quantity;
+	private String size;
 	private Double totalPrice;
-	private Double discountedPrice;
+	private Double totalDiscountedPrice;
 //	private Cart cart; not needed here
 	private ProductDto product;
 	

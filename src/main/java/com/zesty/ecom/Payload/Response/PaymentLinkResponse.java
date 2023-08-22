@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
+public class PaymentLinkResponse {
 	
-	private String message;
-	private Long id;
-	private boolean success;
-
+	private String paymentLinkUrl;
+	private String paymentLinkId;
+	
 }

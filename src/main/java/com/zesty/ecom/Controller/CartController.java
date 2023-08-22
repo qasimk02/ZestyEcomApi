@@ -41,14 +41,14 @@ public class CartController {
 	@DeleteMapping("")
 	public ResponseEntity<ApiResponse> deleteCart(Principal principal){
 		this.cartService.deleteCart(principal.getName());
-		ApiResponse apiResponse = new ApiResponse("Cart deleted successfully",true);
+		ApiResponse apiResponse = new ApiResponse("Cart deleted successfully",null,true);
 		return new ResponseEntity<>(apiResponse,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{itemId}")
 	public ResponseEntity<ApiResponse> deleteCartItem(@PathVariable("itemId") Long itemId,Principal principal){
-		this.cartService.deleteCartItem(itemId, principal.getName());
-		ApiResponse apiResponse = new ApiResponse("Cart item deleted successfully",true);
+		Long id = this.cartService.deleteCartItem(itemId, principal.getName());
+		ApiResponse apiResponse = new ApiResponse("Cart item deleted successfully",id,true);
 		return new ResponseEntity<>(apiResponse,HttpStatus.OK);
 	}
 	

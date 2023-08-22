@@ -33,6 +33,9 @@ public class OrderItem {
 	@Column(name="quantity")
 	private Integer quantity;
 	
+	@Column(name="size")
+	private String size;
+	
 	@Column(name="total_price")
 	private Double totalPrice;
 	

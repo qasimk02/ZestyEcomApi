@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(CustomException.class)
 	public ResponseEntity<ApiResponse> customException(CustomException ex){
 		String message = ex.getMessage();
-		ApiResponse apiResponse = new ApiResponse(message, false);
+		ApiResponse apiResponse = new ApiResponse(message, null,false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
 	}
 
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
 		String message = ex.getMessage();
-		ApiResponse apiResponse = new ApiResponse(message, false);
+		ApiResponse apiResponse = new ApiResponse(message, null,false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
 	}
 
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(DuplicateFieldExcepiton.class)
 	public ResponseEntity<ApiResponse> duplicateFieldExceptionHandler(DuplicateFieldExcepiton ex) {
 		String message = ex.getMessage();
-		ApiResponse apiResponse = new ApiResponse(message, false);
+		ApiResponse apiResponse = new ApiResponse(message, null,false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.CONFLICT);
 	}
 
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiResponse> exceptionHandler(BadCredentialsException ex) {
 		String message = ex.getMessage();
-		ApiResponse apiResponse = new ApiResponse(message, false);
+		ApiResponse apiResponse = new ApiResponse(message, null,false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
     }
 
