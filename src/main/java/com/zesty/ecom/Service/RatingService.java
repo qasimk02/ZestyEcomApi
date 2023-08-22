@@ -9,9 +9,6 @@ public interface RatingService {
 	
 	RatingDetailsResponse getRatingsDetailsByProduct(Long pId);
 
-	
-	
-	
 	//not needed as of now
 	Long getTotalRatingsByProductAndValue(Long pId,Integer value);//1,2,3,4,5
 	Long getTotalRatingsByProduct(Long pId);

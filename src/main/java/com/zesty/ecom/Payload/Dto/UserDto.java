@@ -6,7 +6,6 @@ import com.zesty.ecom.Model.Role;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter

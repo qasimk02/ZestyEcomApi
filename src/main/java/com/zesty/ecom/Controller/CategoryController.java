@@ -48,6 +48,13 @@ public class CategoryController {
 		CategoryDto category = this.categoryService.getCategoryById(id);
 		return new ResponseEntity<CategoryDto>(category, HttpStatus.OK);
 	}
+	
+	//get child categories
+	@GetMapping("/child/{id}")
+	public ResponseEntity<List<CategoryDto>> getChildCategories(@PathVariable("id") Integer id){
+		List<CategoryDto> categories = this.categoryService.getChildCategories(id);
+		return new ResponseEntity<List<CategoryDto>>(categories, HttpStatus.OK);
+	}
 
 	// update category
 	@PutMapping("/{id}")
@@ -62,7 +69,7 @@ public class CategoryController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("id") int id) {
 		this.categoryService.deleteCategoryById(id);
-		ApiResponse apiResponse = new ApiResponse(String.format("Category Deleted Succesfully of Id : %s", id), true);
+		ApiResponse apiResponse = new ApiResponse(String.format("Category Deleted Succesfully of Id : %s", id), Integer.toUnsignedLong(id),true);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.ACCEPTED);
 	}
 	

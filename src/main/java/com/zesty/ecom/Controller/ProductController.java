@@ -35,18 +35,24 @@ public class ProductController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto p) {
 		ProductDto savedProduct = productService.createProduct(p);
-		System.out.println("Product controller : "+p.getDescription());
 		return new ResponseEntity<ProductDto>(savedProduct, HttpStatus.CREATED);
 	}
 
 	@GetMapping("")
 	public ResponseEntity<ProductResponse> getAllProducts(
-			@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
+			@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY_STRING, required = false) String sortBy,
-			@RequestParam(value = "sortOrder", defaultValue = AppConstants.SORT_ORDER_STRING, required = false) String sortOrder) {
-		// pagination and sorting is done in productService
-		ProductResponse productResponse = productService.getAllProduct(pageNumber, pageSize, sortBy, sortOrder);
+			@RequestParam(value = "sortOrder", defaultValue = AppConstants.SORT_ORDER_STRING, required = false) String sortOrder,
+			@RequestParam(value = "color", defaultValue = AppConstants.COLOR, required = false) List<String> colors,
+			@RequestParam(value = "size", defaultValue = AppConstants.SIZE, required = false) List<String> sizes,
+			@RequestParam(value = "minPrice", defaultValue = AppConstants.MIN_PRICE, required = false) Integer minPrice,
+			@RequestParam(value = "maxPrice", defaultValue = AppConstants.MAX_PRICE, required = false) Integer maxPrice,
+			@RequestParam(value = "minDiscount", defaultValue = AppConstants.MIN_DISCOUNT, required = false) Integer minDiscount) {
+
+//		ProductResponse productResponse = productService.getAllProducts(pageNumber, pageSize, sortBy, sortOrder);
+		ProductResponse productResponse = productService.filterAllProducts(pageNumber, pageSize, sortBy, sortOrder,
+				colors, sizes, minPrice, maxPrice, minDiscount);
 		return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.ACCEPTED);
 	}
 
@@ -62,37 +68,39 @@ public class ProductController {
 		return new ResponseEntity<ProductDto>(updatedProduct, HttpStatus.OK);
 	}
 
-	@DeleteMapping("")
-	public ResponseEntity<ApiResponse> deleteAllProduct() {
-		productService.deleteAllProduct();
-		ApiResponse apiResponse = new ApiResponse("All Product Deleted Succesfully", true);
-		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
-	}
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("id") Long id) {
 		productService.deleteProduct(id);
-		ApiResponse apiResponse = new ApiResponse(String.format("Product Deleted Succesfully of Id : %s", id), true);
+		ApiResponse apiResponse = new ApiResponse(String.format("Product Deleted Succesfully of Id : %s", id), id,true);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
 	}
 
 	// get by category id
-	@GetMapping("category/{cId}")
-	public ResponseEntity<ProductResponse> getProductByCategoryId(@PathVariable("cId") int cId,
-			@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
+	@GetMapping("category/{category}")
+	public ResponseEntity<ProductResponse> getProductByCategoryId(@PathVariable("category") String category,
+			@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_STRING, required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY_STRING, required = false) String sortBy,
-			@RequestParam(value = "sortOrder", defaultValue = AppConstants.SORT_ORDER_STRING, required = false) String sortOrder) {
-		// pagination and sorting is done in productService//pagination and sorting is
-		// done in productService
-		ProductResponse productResponse = this.productService.getProductsByCategoryId(cId,pageNumber,pageSize,sortBy,sortOrder);
-		return new ResponseEntity<ProductResponse>(productResponse,HttpStatus.ACCEPTED);
+			@RequestParam(value = "sortOrder", defaultValue = AppConstants.SORT_ORDER_STRING, required = false) String sortOrder,
+			@RequestParam(value = "color", defaultValue = AppConstants.COLOR, required = false) List<String> colors,
+			@RequestParam(value = "size", defaultValue = AppConstants.SIZE, required = false) List<String> sizes,
+			@RequestParam(value = "minPrice", defaultValue = AppConstants.MIN_PRICE, required = false) Integer minPrice,
+			@RequestParam(value = "maxPrice", defaultValue = AppConstants.MAX_PRICE, required = false) Integer maxPrice,
+			@RequestParam(value = "minDiscount", defaultValue = AppConstants.MIN_DISCOUNT, required = false) Integer minDiscount) {
+
+//		ProductResponse productResponse = this.productService.getProductsByCategory(category, pageNumber, pageSize, sortBy,
+//				sortOrder);}
+		
+		ProductResponse productResponse = this.productService.filterProductsByCategory(category, pageNumber, pageSize,
+				sortBy, sortOrder, colors, sizes, minPrice, maxPrice, minDiscount);
+
+		return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.ACCEPTED);
 	}
-	
-	//dump products in bulk
+
+	// dump products in bulk
 	@PostMapping("/dumpProducts")
-	public ResponseEntity<List<ProductDto>> addAllProducts(@RequestBody List<ProductDto> products){
+	public ResponseEntity<List<ProductDto>> addAllProducts(@RequestBody List<ProductDto> products) {
 		List<ProductDto> dumpedProducts = this.productService.addAllProducts(products);
-		return new ResponseEntity<>(dumpedProducts,HttpStatus.CREATED);
+		return new ResponseEntity<>(dumpedProducts, HttpStatus.CREATED);
 	}
 }

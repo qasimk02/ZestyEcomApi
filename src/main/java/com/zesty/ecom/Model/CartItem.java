@@ -23,16 +23,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
-@Table(name="cart_item",uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id", "product_id"}))
+@Table(name="cart_item",uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id", "product_id","size"}))
 public class CartItem {
 	
 	@Id
@@ -42,6 +40,9 @@ public class CartItem {
 	
 	@Column(name="quantity")
 	private Integer quantity;
+	
+	@Column(name="size")
+	private String size;
 	
 	@Column(name="total_price")
 	private Double totalPrice;

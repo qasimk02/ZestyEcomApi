@@ -12,6 +12,7 @@ public class OrderItemDto {
 	
 	private Long orderItemId;
 	private Integer quantity;
+	private String size;
 	private Double totalPrice;
 	private Double totalDiscountedPrice;
 	private LocalDateTime orderDate;

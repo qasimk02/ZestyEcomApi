@@ -7,23 +7,30 @@ import com.zesty.ecom.Payload.Response.ProductResponse;
 
 public interface ProductService {
 
-	//get
-	ProductResponse getAllProduct(int pageNumber, int pageSize, String sortBy, String sortOrder);
+	// get
+	ProductResponse getAllProducts(int pageNumber, int pageSize, String sortBy, String sortOrder);
 
 	ProductDto getProductById(Long id);
-	
-	ProductResponse getProductsByCategoryId(int cId, int pageNumber, int pageSize, String sortBy, String sortOrder);
-	
-	//create
+
+	ProductResponse getProductsByCategory(String category, int pageNumber, int pageSize, String sortBy,
+			String sortOrder);
+
+	// create
 	ProductDto createProduct(ProductDto p);
 
-	//update
+	// update
 	ProductDto updateProduct(Long id, ProductDto newP);
 
-	//delete
+	// delete
 	void deleteProduct(Long id);
 
+	// filter
+	ProductResponse filterAllProducts(int pageNumber, int pageSize, String sortBy, String sortOrder,
+			List<String> colors, List<String> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount);
+
+	ProductResponse filterProductsByCategory(String cat, int pageNumber, int pageSize, String sortBy, String sortOrder,
+			List<String> colors, List<String> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount);
+
 	// not needed just for development purpose
-	void deleteAllProduct();
 	List<ProductDto> addAllProducts(List<ProductDto> products);
 }

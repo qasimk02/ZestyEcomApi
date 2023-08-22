@@ -2,11 +2,9 @@ package com.zesty.ecom.Payload.Dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class AddressDto {
 	
 	private Long addressId;

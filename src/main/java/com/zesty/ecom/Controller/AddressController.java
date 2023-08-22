@@ -63,7 +63,7 @@ public class AddressController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse> deleteAddress(@PathVariable("id") Long id,Principal principal){
 		this.addressService.deleteAddress(id, principal.getName());
-		ApiResponse apiResponse = new ApiResponse("Address Deleted Successfully",true);
+		ApiResponse apiResponse = new ApiResponse("Address Deleted Successfully",id,true);
 		
 		return new ResponseEntity<>(apiResponse,HttpStatus.OK);
 	}

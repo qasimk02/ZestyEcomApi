@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ItemRequest {
 
 	private Long productId;
+	private String size;
 	private Integer quantity;
 
 }

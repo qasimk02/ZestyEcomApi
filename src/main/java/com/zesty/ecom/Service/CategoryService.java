@@ -6,15 +6,20 @@ import com.zesty.ecom.Payload.Dto.CategoryDto;
 
 public interface CategoryService {
 
+	//create
 	CategoryDto createCategory(CategoryDto category);
 
+	//get
 	List<CategoryDto> getAllCategory();
+	List<CategoryDto> getAllCategoyById(List<Integer> ids);
+	CategoryDto getCategoryById(Integer id);
+	List<CategoryDto> getChildCategories(Integer id);
 
-	CategoryDto getCategoryById(int id);
+	//update
+	CategoryDto updateCategory(CategoryDto category, Integer id);
 
-	CategoryDto updateCategory(CategoryDto category, int id);
-
-	void deleteCategoryById(int id);
+	//delete
+	void deleteCategoryById(Integer id);
 
 	//to dump multiple categories
 	List<CategoryDto> addAllCategories (List<CategoryDto> categories);

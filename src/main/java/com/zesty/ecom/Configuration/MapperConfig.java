@@ -13,6 +13,7 @@ import com.zesty.ecom.Mapper.OrderMapper;
 import com.zesty.ecom.Mapper.ProductMapper;
 import com.zesty.ecom.Mapper.RatingMapper;
 import com.zesty.ecom.Mapper.ReviewMapper;
+import com.zesty.ecom.Mapper.SizeMapper;
 import com.zesty.ecom.Mapper.UserMapper;
 
 @Configuration
@@ -70,5 +71,10 @@ public class MapperConfig {
 	@Bean
 	public OrderItemMapper orderItemMapper() {
 		return new OrderItemMapper();
+	}
+	
+	@Bean
+	public SizeMapper sizeMapper() {
+		return new SizeMapper();
 	}
 }

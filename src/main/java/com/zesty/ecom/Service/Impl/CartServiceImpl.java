@@ -40,10 +40,11 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public CartDto addItemToCart(ItemRequest item, String username) {
+		
 //		get item details from request
 		Long pId = item.getProductId();
-		Integer quantity = item.getQuantity();
-
+		Integer quantity = item.getQuantity()!=null?item.getQuantity():1;
+		String size = item.getSize().toLowerCase();
 //		get the user
 		User user = this.userRepository.findByEmail(username)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Email", username));
@@ -51,7 +52,7 @@ public class CartServiceImpl implements CartService {
 //		get the product
 		Product product = this.productRepository.findById(pId)
 				.orElseThrow(() -> new ResourceNotFoundException("Product", "Id", Long.toString(pId)));
-
+		
 //		 check product in stock or not and live or not
 		if (!(product.isInStock() && product.isLive())) {
 			throw new CustomException("Item Out of Stock");
@@ -71,9 +72,9 @@ public class CartServiceImpl implements CartService {
 		CartItem cartItem;
 		Double totalCartPrice;
 		Double totalCartDiscountedPrice;
-		
-		if (this.cartItemService.isCartItemExist(product,cart)) {
-			cartItem = this.cartItemService.getCartItemByProduct(product);
+
+		if (this.cartItemService.isCartItemExist(product,cart,size)) {
+			cartItem = this.cartItemService.getCartItem(cart,product,size);
 			// calculate the totalPrice and totalDiscountedPrice if the item is already present
 			totalPrice = quantity * product.getPrice();
 			totalDiscountedPrice = totalPrice - (totalPrice * product.getDiscountPercent() * 0.01);
@@ -91,6 +92,7 @@ public class CartServiceImpl implements CartService {
 			totalCartDiscountedPrice = cart.getTotalDiscountedPrice() + totalDiscountedPrice;
 			totalCartPrice = cart.getTotalPrice() + totalPrice;
 			cartItem.setQuantity(1);
+			cartItem.setSize(size);
 			cartItem.setTotalPrice(totalPrice);
 			cartItem.setProduct(product);
 			cartItem.setTotalDiscountedPrice(totalDiscountedPrice);
@@ -140,8 +142,8 @@ public class CartServiceImpl implements CartService {
 	}
 	
 	@Override
-	public void deleteCartItem(Long itemId,String username) {
-		
-		this.cartItemService.deleteCartItem(itemId, username);
+	public Long deleteCartItem(Long itemId,String username) {
+		Long deletedId = this.cartItemService.deleteCartItem(itemId, username);
+		return deletedId;
 	}
 }

@@ -1,5 +1,6 @@
 package com.zesty.ecom.Service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +27,12 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto createCategory(CategoryDto cDto) {
 		// if title already exist then throw exception
-		String title = cDto.getTitle();
+		String title = cDto.getTitle().toLowerCase();
 		if (categoryRepository.existsByTitle(title)) {
 			throw new DuplicateFieldExcepiton("Category", "Title", title);
 		}
 		Category category = categoryMapper.mapToEntity(cDto);
+		category.setTitle(title);
 		Category savedCategory = this.categoryRepository.save(category);
 		return categoryMapper.mapToDto(savedCategory);
 	}
@@ -44,28 +46,60 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDto getCategoryById(int id) {
+	public CategoryDto getCategoryById(Integer id) {
 		Category category = this.categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
 		return categoryMapper.mapToDto(category);
 	}
 
 	@Override
-	public CategoryDto updateCategory(CategoryDto newCategory, int id) {
+	public List<CategoryDto> getAllCategoyById(List<Integer> ids) {
+		List<Category> categories = this.categoryRepository.findAllById(ids);
+		List<CategoryDto> categoriesDto = categories.stream().map((c) -> this.categoryMapper.mapToDto(c))
+				.collect(Collectors.toList());
+		return categoriesDto;
+	}
+
+	//child categories
+	@Override
+	public List<CategoryDto> getChildCategories(Integer id) {
+		List<Category> allChildCategories = new ArrayList<>();
+		Category parentCategory = this.categoryRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
+		dfsTraversal(parentCategory, allChildCategories);
+		List<CategoryDto> allChildCategoriesDto = allChildCategories.stream()
+				.map((c) -> this.categoryMapper.mapToDto(c)).collect(Collectors.toList());
+		return allChildCategoriesDto;
+	}
+	
+	private void dfsTraversal(Category category, List<Category> result) {
+		result.add(category);
+		List<Category> childCategories = category.getChildCategories();
+		if (childCategories != null) {
+			for (Category childCategory : childCategories) {
+				dfsTraversal(childCategory, result);
+			}
+		}
+	}
+
+	@Override
+	public CategoryDto updateCategory(CategoryDto newCategory, Integer id) {
 		// if title already exist then throw exception
-		String title = newCategory.getTitle();
+		String title = newCategory.getTitle().toLowerCase();
 		if (categoryRepository.existsByTitle(title)) {
 			throw new DuplicateFieldExcepiton("Category", "Title", title);
 		}
 		Category oldCategory = this.categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
-		oldCategory.setTitle(newCategory.getTitle());
+//		oldCategory.setDepth(newCategory.getDepth()); can;t update depth
+//		oldCategory.setParentCategory(oldCategory); as of now can't update parent category
+		oldCategory.setTitle(title);
 		Category updatedCategory = this.categoryRepository.save(oldCategory);
 		return categoryMapper.mapToDto(updatedCategory);
 	}
 
 	@Override
-	public void deleteCategoryById(int id) {
+	public void deleteCategoryById(Integer id) {
 		Category category = this.categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
 		this.categoryRepository.delete(category);

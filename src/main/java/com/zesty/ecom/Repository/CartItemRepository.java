@@ -6,10 +6,9 @@ import com.zesty.ecom.Model.Cart;
 import com.zesty.ecom.Model.CartItem;
 import com.zesty.ecom.Model.Product;
 
-public interface CartItemRepository extends JpaRepository<CartItem, Long>{
+public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
-	CartItem findByProduct(Product p);
-
-	Boolean existsByProductAndCart(Product p, Cart c);
-
+	CartItem findByCartAndProductAndSize(Cart cart, Product product, String size);
+	
+	Boolean existsByCartAndProductAndSize(Cart cart, Product product, String size);
 }

@@ -13,6 +13,6 @@ public interface CartService {
 
 	void deleteCart(String username);
 
-	void deleteCartItem(Long itemId, String username);
+	Long deleteCartItem(Long itemId, String username);
 	
 }

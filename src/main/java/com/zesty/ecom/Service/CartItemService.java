@@ -7,10 +7,11 @@ import com.zesty.ecom.Model.Product;
 
 public interface CartItemService {
 	
-	CartItem getCartItemByProduct(Product p);
+	CartItem getCartItem(Cart cart, Product p, String size);
+	CartItem getCartItemById(Long id);
 	
-	void deleteCartItem(Long cartItemId,String username);
+	Long deleteCartItem(Long cartItemId,String username);
 
-	Boolean isCartItemExist(Product p, Cart c);
+	Boolean isCartItemExist(Product p, Cart c,String size);
 	
 }
