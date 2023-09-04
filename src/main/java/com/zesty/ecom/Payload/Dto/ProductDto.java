@@ -18,7 +18,7 @@ public class ProductDto {
 	private String name;
 	private String brand;
 	private String color;
-	private Double Price;
+	private Double price;
 	private Boolean inStock;
 	private Double discountPercent;
 	private boolean live;
