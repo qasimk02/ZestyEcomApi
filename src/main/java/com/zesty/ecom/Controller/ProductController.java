@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zesty.ecom.Payload.Dto.ProductDto;
 import com.zesty.ecom.Payload.Response.ApiResponse;
 import com.zesty.ecom.Payload.Response.ProductResponse;
@@ -33,8 +38,17 @@ public class ProductController {
 
 	@PostMapping("")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto p) {
-		ProductDto savedProduct = productService.createProduct(p);
+	public ResponseEntity<ProductDto> createProduct(@Valid @RequestPart("productDetails") String p,@RequestPart("images") List<MultipartFile> images) {
+	
+		ProductDto productData = new ProductDto();
+		try {
+			productData = new ObjectMapper().readValue(p, ProductDto.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		ProductDto savedProduct = productService.createProduct(images,productData);
 		return new ResponseEntity<ProductDto>(savedProduct, HttpStatus.CREATED);
 	}
 

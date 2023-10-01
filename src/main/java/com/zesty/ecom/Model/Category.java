@@ -48,7 +48,7 @@ public class Category {
 	@JsonIgnore
 	private List<Category> childCategories;
 
-	@ManyToMany(mappedBy="categories",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="category",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Product> products;
 

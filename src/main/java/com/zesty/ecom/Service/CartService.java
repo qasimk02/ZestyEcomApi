@@ -10,6 +10,8 @@ public interface CartService {
 	CartDto getCartByUsername(String username);
 
 	CartDto getCartById(Long id);
+	
+	Integer getCartItemsCount(String username);
 
 	void deleteCart(String username);
 

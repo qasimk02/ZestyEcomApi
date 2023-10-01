@@ -1,6 +1,7 @@
 package com.zesty.ecom.Controller;
 
 import java.security.Principal;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,14 @@ public class CartController {
 	public ResponseEntity<CartDto> getCart(Principal principal){
 		CartDto cart = this.cartService.getCartByUsername(principal.getName());
 		return new ResponseEntity<>(cart,HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/count")
+	public ResponseEntity<HashMap<String,Integer>> getCartItemsCount(Principal principal){
+		Integer count = this.cartService.getCartItemsCount(principal.getName());
+		HashMap<String,Integer> countMap = new HashMap<String,Integer>();
+		countMap.put("count",count);
+		return new ResponseEntity<>(countMap,HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("")

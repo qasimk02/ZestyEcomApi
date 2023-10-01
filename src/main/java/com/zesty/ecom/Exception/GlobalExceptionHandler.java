@@ -3,6 +3,7 @@ package com.zesty.ecom.Exception;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -71,6 +72,14 @@ public class GlobalExceptionHandler {
 		List<String> errors = ex.getErrorMessages();
 		MultipleApiResponse multipleApiResponses = new MultipleApiResponse(errors, false);
 		return new ResponseEntity<>(multipleApiResponses, HttpStatus.BAD_REQUEST);
+	}
+	
+	//handling maximum size limit exceeded exception
+	@ExceptionHandler(SizeLimitExceededException.class)
+	public ResponseEntity<ApiResponse> sizeLimitExceededException(SizeLimitExceededException ex) {
+		String error = ex.getMessage();
+		ApiResponse apiResponse = new ApiResponse(error, null, false);
+		return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }

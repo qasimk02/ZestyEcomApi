@@ -12,6 +12,7 @@ public interface OrderService {
 	
 	//get
 	OrderDto findOrderById(Long orderId);
+	OrderDto findOrderByIdAndUser(Long orderId, String username);
 	List<OrderDto> getUserOrderHistory(String username);
 	List<OrderDto> getAllOrders();
 	
@@ -20,10 +21,12 @@ public interface OrderService {
 	OrderDto confirmOrder(Long orderId);
 	OrderDto markOrderAsShipped(Long orderId);
 	OrderDto markOrderAsDelivered(Long orderId);
+	OrderDto markOrderAsOutForDelivery(Long orderId);
 	OrderDto cancelOrder(Long orderId);
 	
 	//delete
 	void deleteOrderByOrderId(Long orderId);
+
 	
 	
 	

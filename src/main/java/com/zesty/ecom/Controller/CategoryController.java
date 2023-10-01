@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zesty.ecom.Model.Category;
 import com.zesty.ecom.Payload.Dto.CategoryDto;
 import com.zesty.ecom.Payload.Response.ApiResponse;
 import com.zesty.ecom.Service.CategoryService;
@@ -49,11 +50,17 @@ public class CategoryController {
 		return new ResponseEntity<CategoryDto>(category, HttpStatus.OK);
 	}
 	
-	//get child categories
+	@GetMapping("level/{level}")
+	public ResponseEntity<List<CategoryDto>> getCategoryByLevel(@PathVariable("level") int level){
+		List<CategoryDto> cateogries = this.categoryService.getCategoriesByLevel(level);
+		return new ResponseEntity<List<CategoryDto>>(cateogries,HttpStatus.OK);
+	}
+//	
+//	//get child categories
 	@GetMapping("/child/{id}")
-	public ResponseEntity<List<CategoryDto>> getChildCategories(@PathVariable("id") Integer id){
-		List<CategoryDto> categories = this.categoryService.getChildCategories(id);
-		return new ResponseEntity<List<CategoryDto>>(categories, HttpStatus.OK);
+	public ResponseEntity<List<Category>> getChildCategories(@PathVariable("id") Integer id){
+		List<Category> categories = this.categoryService.getChildCategories(id);
+		return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
 	}
 
 	// update category

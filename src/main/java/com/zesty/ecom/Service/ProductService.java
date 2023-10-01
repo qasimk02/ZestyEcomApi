@@ -2,6 +2,8 @@ package com.zesty.ecom.Service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.zesty.ecom.Payload.Dto.ProductDto;
 import com.zesty.ecom.Payload.Response.ProductResponse;
 
@@ -16,7 +18,7 @@ public interface ProductService {
 			String sortOrder);
 
 	// create
-	ProductDto createProduct(ProductDto p);
+	ProductDto createProduct(List<MultipartFile> images,ProductDto p);
 
 	// update
 	ProductDto updateProduct(Long id, ProductDto newP);

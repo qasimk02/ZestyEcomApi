@@ -60,18 +60,25 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoriesDto;
 	}
 
-	//child categories
 	@Override
-	public List<CategoryDto> getChildCategories(Integer id) {
+	public List<CategoryDto> getCategoriesByLevel(Integer level) {
+		List<Category> categories = this.categoryRepository.findByDepth(level)
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Level", Integer.toString(level)));
+		List<CategoryDto> categoriesDto = categories.stream().map((c) -> this.categoryMapper.mapToDto(c))
+				.collect(Collectors.toList());
+		return categoriesDto;
+	}
+
+	// child categories
+	@Override
+	public List<Category> getChildCategories(Integer id) {
 		List<Category> allChildCategories = new ArrayList<>();
 		Category parentCategory = this.categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Id", Integer.toString(id)));
 		dfsTraversal(parentCategory, allChildCategories);
-		List<CategoryDto> allChildCategoriesDto = allChildCategories.stream()
-				.map((c) -> this.categoryMapper.mapToDto(c)).collect(Collectors.toList());
-		return allChildCategoriesDto;
+		return allChildCategories;
 	}
-	
+
 	private void dfsTraversal(Category category, List<Category> result) {
 		result.add(category);
 		List<Category> childCategories = category.getChildCategories();
