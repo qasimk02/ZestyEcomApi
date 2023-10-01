@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zesty.ecom.Model.Role;
 import com.zesty.ecom.Repository.RoleRepository;
 
 @SpringBootApplication
+@EnableTransactionManagement
 public class ZestyEcomApiApplication implements CommandLineRunner{
 
 	@Autowired

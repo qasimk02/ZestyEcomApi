@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zesty.ecom.Util.LocalDateTimeConverter;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
@@ -21,8 +22,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
@@ -33,6 +33,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -73,8 +74,8 @@ public class Product {
 	@Column(name="is_live")
 	private boolean live;
 	
-	@Column(name="image_name")
-	private String imageName;
+	@Column(name="is_active",columnDefinition = "boolean default true")
+	private boolean active;
 	
 	@Column(name="description")
 	@Size(max=1000,message="Maximum allowed length is of 1000 letters")
@@ -92,17 +93,16 @@ public class Product {
 	
 	@Embedded
 	@ElementCollection
-	@Column(name="sizes")
+	@CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
 	private Set<Sizes> sizes;
 	
 	//mapping
-	@ManyToMany(cascade=CascadeType.MERGE)
-	@JoinTable(
-	        name = "product_categories",
-	        joinColumns = @JoinColumn(name = "product_id"),
-	        inverseJoinColumns = @JoinColumn(name = "category_id")
-	    )
-    private List<Category> categories;
+	@OneToMany(mappedBy="product",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	private List<ProductImage> images;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="category_id")
+    private Category category;
 	
 	@OneToMany(mappedBy="product",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JsonIgnore

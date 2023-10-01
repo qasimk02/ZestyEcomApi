@@ -2,6 +2,7 @@ package com.zesty.ecom.Service;
 
 import java.util.List;
 
+import com.zesty.ecom.Model.Category;
 import com.zesty.ecom.Payload.Dto.CategoryDto;
 
 public interface CategoryService {
@@ -13,7 +14,8 @@ public interface CategoryService {
 	List<CategoryDto> getAllCategory();
 	List<CategoryDto> getAllCategoyById(List<Integer> ids);
 	CategoryDto getCategoryById(Integer id);
-	List<CategoryDto> getChildCategories(Integer id);
+	List<Category> getChildCategories(Integer id);
+	List<CategoryDto> getCategoriesByLevel(Integer id);
 
 	//update
 	CategoryDto updateCategory(CategoryDto category, Integer id);

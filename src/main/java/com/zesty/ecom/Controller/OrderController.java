@@ -39,8 +39,8 @@ public class OrderController {
 	
 	//get
 	@GetMapping("{id}")
-	public ResponseEntity<OrderDto> getOrderById(@PathVariable("id") Long id) {
-		OrderDto order = this.orderService.findOrderById(id);
+	public ResponseEntity<OrderDto> getOrderById(@PathVariable("id") Long id,Principal prinicipal) {
+		OrderDto order = this.orderService.findOrderByIdAndUser(id,prinicipal.getName());
 		return new ResponseEntity<>(order,HttpStatus.CREATED);
 	}
 	
@@ -91,6 +91,14 @@ public class OrderController {
 		OrderDto order = this.orderService.markOrderAsDelivered(id);
 		return new ResponseEntity<>(order,HttpStatus.OK);
 	}
+	
+	@PutMapping("/{id}/mark-out-for=delivery")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<OrderDto> markOrderAsOutForDelivery(@PathVariable("id") Long id){
+		OrderDto order = this.orderService.markOrderAsOutForDelivery(id);
+		return new ResponseEntity<>(order,HttpStatus.OK);
+	}
+	
 	
 	//delete
 	@DeleteMapping("/{id}")

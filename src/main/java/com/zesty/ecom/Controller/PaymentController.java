@@ -100,12 +100,12 @@ public class PaymentController {
 
 		try {
 			Payment payment = razorpay.payments.fetch(paymentId);
-			System.out.println(payment);
 			if (payment.get("status").equals("captured")) {
 				order.getPaymentDetails().setRozarpayPaymentId(paymentId);
 				order.getPaymentDetails().setRozarpayPaymentLinkStatus(paymentStatus);
 				order.getPaymentDetails().setStatus("COMPLETED");
 				order.getPaymentDetails().setRozarpayPaymentLinkId(paymentLinkId);
+				order.getPaymentDetails().setPaymentMethod(payment.get("method"));
 				order.setOrderStatus("PLACED");
 				this.orderRepository.save(order);
 			}

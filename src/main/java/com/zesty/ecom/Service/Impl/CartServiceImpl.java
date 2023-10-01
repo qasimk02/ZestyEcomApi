@@ -129,6 +129,12 @@ public class CartServiceImpl implements CartService {
 		cartDto.setTotalCartItems(cart.getCartItems().size());
 		return cartDto;
 	}
+	
+	@Override
+	public Integer getCartItemsCount(String userName) {
+		Integer count = this.cartRepository.countCartItemsByUsername(userName);
+		return count;
+	}
 
 	@Override
 	public void deleteCart(String username) {

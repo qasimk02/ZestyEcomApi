@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ProductDto {
 	
 	private Long productId;
@@ -22,9 +24,9 @@ public class ProductDto {
 	private Boolean inStock;
 	private Double discountPercent;
 	private boolean live;
-	private String imageName;
 	private String description;
-	private List<CategoryDto> categories;
+	private CategoryDto category;
+	private List<ProductImageDto> images;
 	private Set<SizesDto> sizes;
 //	private CartItem cartItem; not needed cartItem here in product
 
