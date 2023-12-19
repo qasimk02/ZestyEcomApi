@@ -35,7 +35,7 @@ public class SecurityConfig {
 
 	public static final String[] PUBLIC_URLS = { "/api/v1/auth/**", "/v3/api-docs", "/v2/api-docs",
 			"/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/api/products/**", "/api/review/**",
-			"/api/rating/**" };
+			"/api/rating/**","/" };
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,7 +46,7 @@ public class SecurityConfig {
 					@Override
 					public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 						CorsConfiguration cfg = new CorsConfiguration();
-						cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+						cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://master.d3oh5na4eywunw.amplifyapp.com"));
 						cfg.setAllowedMethods(Collections.singletonList("*"));
 						cfg.setAllowCredentials(true);
 						cfg.setAllowedHeaders(Collections.singletonList("*"));
