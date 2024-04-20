@@ -59,11 +59,12 @@ public class AuthController {
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
     	
     	//authentication
+    	System.out.println(request);
         this.doAuthenticate(request.getEmail(), request.getPassword());
-        
+        System.out.println("here");
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
-        
+        System.out.println(token);
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
                 .message("success")

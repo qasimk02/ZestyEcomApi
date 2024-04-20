@@ -17,14 +17,14 @@ public class ImageHandler {
 		HashMap<String,byte[]> map = new HashMap<>();
 		
 		String baseName = fileName.substring(0, fileName.lastIndexOf("."));
-		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+//		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
 		// Small image
-		String smallImageName = baseName + "-small." + extension;
+		String smallImageName = baseName + "-small";
 		byte[] smallImage = resizeImageToBytes(file, 300, (1.33), 0.8);
-		String mediumImageName = baseName + "-medium." + extension;
+		String mediumImageName = baseName + "-medium";
 		byte[] mediumImage = resizeImageToBytes(file, 700, (1.33), 0.8);
-		String largeImageName = baseName + "-large." + extension;
+		String largeImageName = baseName + "-large";
 		byte[] largeImage = resizeImageToBytes(file, 1200, (1.33), 0.8);
 		
 		

@@ -28,10 +28,10 @@ public class S3Config {
 		return credentials;
 	}
 
-	@Bean
-	public S3Client s3Client() {
-		S3Client s3Client = S3Client.builder().region(Region.of(region)).credentialsProvider(credentials()).build();
-		return s3Client;
-	}
+//	@Bean
+//	public S3Client s3Client() {
+//		S3Client s3Client = S3Client.builder().region(Region.of(region)).credentialsProvider(credentials()).build();
+//		return s3Client;
+//	}
 
 }

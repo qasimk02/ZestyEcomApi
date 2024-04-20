@@ -1,5 +1,6 @@
 package com.zesty.ecom.Service.Impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +34,7 @@ import com.zesty.ecom.Repository.CategoryRepository;
 import com.zesty.ecom.Repository.ProductRepository;
 import com.zesty.ecom.Service.CategoryService;
 import com.zesty.ecom.Service.ProductService;
-import com.zesty.ecom.Service.S3Service;
+import com.zesty.ecom.Service.FileUploadService;
 import com.zesty.ecom.Util.ImageHandler;
 
 import jakarta.persistence.criteria.Join;
@@ -62,12 +63,12 @@ public class ProductServiceImpl implements ProductService {
 	private ImageHandler imageHandler;
 
 	@Autowired
-	private S3Service s3Service;
+	private FileUploadService fileUploadService;
 
 	@Override
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
-	public ProductDto createProduct(List<MultipartFile> images, ProductDto pDto) {
+	public ProductDto createProduct(List<MultipartFile> images, ProductDto pDto){
 
 		// checking if any size has quantity > 0 then that product is in stock
 		pDto.setInStock(pDto.getSizes().stream().anyMatch(size -> size.getQuantity() > 0));
@@ -113,9 +114,13 @@ public class ProductServiceImpl implements ProductService {
 			while (iterator.hasNext()) {
 				Entry<String, byte[]> entry = iterator.next();
 				String imageName = entry.getKey();
-				String imagePath = "products"+"/"+savedProduct.getProductId()+"/"+imageName;
+				String imagePath = "zesty/products"+"/"+savedProduct.getProductId()+"/"+imageName;
 				byte[] imageByte = entry.getValue();
-				s3Service.uploadToS3(imageByte, imagePath);
+				try {
+					fileUploadService.uploadtoCloudinary(imageByte, imagePath);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
